@@ -1,0 +1,366 @@
+{% extends 'user/base.html'%}
+    
+    <!-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.0.0/cropper.min.css" integrity="sha256-FeDcPwV8ZgxG1MU5L/b2i8clOmqZJKK0eyDHqrQaXxY=" crossorigin="anonymous" /> -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.0.0/cropper.min.css" integrity="sha256-FeDcPwV8ZgxG1MU5L/b2i8clOmqZJKK0eyDHqrQaXxY=" crossorigin="anonymous" />
+    <!-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/timepicker/1.3.5/jquery.timepicker.min.css"> -->
+    <!-- Latest compiled and minified CSS -->
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+
+
+
+    <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>  -->
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+
+        {% block content %}
+
+        <!-- <link href="//netdna.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+<script src="//netdna.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
+<script src="//code.jquery.com/jquery-1.11.1.min.js"></script> -->
+<!------ Include the above in your HEAD tag ---------->
+
+<form class="form-horizontal" method="POST" enctype="multipart/form-data" action="/SendingProducts/">
+  {% csrf_token %}
+<fieldset>
+
+<!-- Form Name -->
+<legend>THE PRODUCT YOU HAVE TO SELL</legend>
+<!-- Text input-->
+<div class="row">
+    <div class="form group col-md-6">
+  <label class="col-md-4 control-label" for="product_name"> NAME</label>  
+  <div class="col-md-4">
+  <input id="p_name" name="pro_name" placeholder="PRODUCT NAME" class="form-control input-md" type="text">
+    
+  </div>
+</div>
+
+<!-- Text input-->
+<div class="form-group col-md-6">
+  <label class="col-md-4 control-label" for="product_name_fr">PRODUCT DESCRIPTION </label>  
+  <div class="col-md-6">
+  <input id="p_desc" name="pro_desc" placeholder="PRODUCT DESCRIPTION " class="form-control input-md" required="" type="text">
+   </div> 
+  </div>
+</div>
+
+<!-- Select Basic -->
+<div class="row">
+    <div class="form group col-md-6">
+  <label class="col-md-4 control-label" for="product_categorie">PRODUCT CATEGORY</label>
+  <div class="col-md-4">
+    <select id="p_cate" name="p_cate" class ="form-control form-control-lg">
+        {% for categ in categ %}
+       <option>{{categ.category}}</option>
+       {% endfor %}
+    </select>
+    
+  </div>
+</div>
+
+<!-- Text input-->
+<div class="form-group col-md-6">
+  <label class="col-md-4 control-label" for="available_quantity">PRICE</label>  
+  <div class="col-md-4">
+  <input id="p_price" name="p_price" placeholder="PRICE" class="form-control input-md" required="" type="text">
+    </div>
+  </div>
+</div>
+
+
+
+<!-- Textinput-->
+
+<div class="form group col-md-8">   
+  <label class="col-md-4 control-label" for="product_name">you can have the bid upto this date </label>  
+  <div class="col-md-4">
+      <input type="date" class="form-control" id="timefrom" name="timefrom" />
+  </div>
+</div>
+
+
+
+
+
+ 
+    
+  <!-- File Button  -->
+  <div class="row">
+<div class="form group col-md-4">
+  <label class=" control-label" for="filebutton">First image</label>
+  <div>
+    <input id="image1" name="image1" class="input-file" type="file" required onchange="readURL1(this);"/>
+    <img id="img1" src="" name="viewimage1" style="height: 25%;width: 25%; visibility: hidden;" ><br>
+    <button style="visibility: hidden;" type="button" id="crop_button1" required>Crop</button> 
+    <img id="imag1" style="width: 20em;height: 15em;visibility: hidden;">
+    <div style="height: 20%;width: 20%;" id="cropped_result1"></div>  
+    <textarea name="imageurl1" id="imageurl1" cols="30" rows="10" hidden></textarea>
+   
+  </div>
+</div>
+
+ <!-- File Button  -->
+<!-- <div class="form-group">
+  <label class="col-md-4 control-label" for="filebutton">auxiliary_image</label>
+  <div class="col-md-4">
+    <input id="image2" name="image2" class="input-file" type="file" required>
+  </div>
+</div> -->
+
+<div class="form-group col-md-4">
+  <label class=" control-label" for="filebutton">second image</label>
+  <div>
+    <input id="image2" name="image2" class="input-file" type="file" required onchange="readURL2(this);"/>
+    <img id="img2" src="" name="viewimage2" style="height: 25%;width: 25%;visibility: hidden;" >
+    <button style="visibility: hidden;" type="button" id="crop_button2" required>Crop</button> 
+    <img id="imag2" style="width: 20em;height: 15em;visibility: hidden;">
+    <div style="height: 20%;width: 20%;" id="cropped_result2"></div>  
+    <textarea name="imageurl2" id="imageurl2" cols="30" rows="10" hidden></textarea>
+   
+  </div>
+</div>
+
+ <!-- File Button  -->
+<!-- <div class="form-group">
+    <label class="col-md-4 control-label" for="filebutton">auxiliary_third_image</label>
+    <div class="col-md-4">
+      <input id="image3" name="image3" class="input-file" type="file" required>
+    </div>
+  </div> -->
+
+  <div class="col-md-4">
+    <label class="control-label" for="filebutton">Third image</label>
+    <div>
+      <input id="image3" name="image3" class="input-file" type="file" required onchange="readURL3(this);"/>
+      <img id="img3" src="" name="viewimage3" style="height: 20%;width: 20%;visibility: hidden;" >
+      <button style="visibility: hidden;" type="button" id="crop_button3" required >Crop</button>
+      <img id="imag3" style="width: 20em;height: 15em;visibility: hidden;">  
+      <div style="height: 20%;width: 20%;" id="cropped_result3"></div> 
+      <textarea name="imageurl3" id="imageurl3" cols="30" rows="10" hidden></textarea>
+     
+    </div>
+  </div>
+  </div>
+<!-- Button -->
+<div>
+{% for message in messages %}
+<span style="color: red;">
+  {{message}}
+</span>
+{% endfor %}
+
+</div>
+<span id="error1"></span>
+<div class="form-group">
+  <label class="col-md-4 control-label" for="singlebutton"></label>
+  <div class="col-md-4">
+    <input type="submit" id="but" name="singlebutton" class="btn btn-primary">
+  </div>
+  </div>
+
+</fieldset>
+</form>
+
+   <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.0.0/cropper.min.js"></script>
+
+
+   
+      
+      
+
+
+    
+
+<script>
+
+  var cropper = new Cropper(document.getElementById('img1'), {});
+  function readURL1(input) {
+  cropper.destroy()
+  document.getElementById('crop_button1').style.visibility = 'visible'
+  document.getElementById('img1').style.visibility = 'visible'
+  document.getElementById('imag1').src = ''
+
+  if (input.files && input.files[0]) {
+    var reader = new FileReader();
+    reader.onload = function (e) {
+      $('#img1').attr('src', e.target.result)
+    };
+    reader.readAsDataURL(input.files[0]);
+    setTimeout(initCropper1, 1000);
+  }
+}
+function initCropper1(){
+  console.log("Came here")
+  var image = document.getElementById('img1');
+  var cropper = new Cropper(image, {
+    aspectRatio: 16 / 9,
+    viewMode:1,
+    cropBoxResizable:false,
+    crop: function(e) {
+      console.log(e.detail.x);
+      console.log(e.detail.y);
+    }
+  
+  });
+
+  // On crop button clicked
+  document.getElementById('crop_button1').addEventListener('click', function(){
+    document.getElementById('imag1').style.visibility = 'visible'
+    document.getElementById('img1').style.visibility = 'hidden'
+    var imgurl =  cropper.getCroppedCanvas().toDataURL();
+    //var img = document.createElement("imag1");
+    //imag1.src = imgurl;
+    document.getElementById('crop_button1').style.visibility = 'hidden'
+    document.getElementById("imag1").src=imgurl
+    $('#imageurl1').val(imgurl)
+    cropper.destroy()
+
+
+  })
+}
+</script>
+
+
+<script>
+  var cropper = new Cropper2(document.getElementById('img2'), {});
+  function readURL2(input) {
+    cropper.destroy()
+    document.getElementById('crop_button2').style.visibility = 'visible'
+    document.getElementById('img2').style.visibility = 'visible'
+    document.getElementById('imag2').src = ''
+
+    if (input.files && input.files[0]) {
+      var reader = new FileReader();
+      reader.onload = function (e) {
+        $('#img2').attr('src', e.target.result)
+      };
+      reader.readAsDataURL(input.files[0]);
+      setTimeout(initCropper2, 1000);
+    }
+  }
+  function initCropper2(){
+    console.log("rirkj")
+    var image = document.getElementById('img2');
+    var cropper = new Cropper(image, {
+      aspectRatio: 16 / 9,
+      viewMode:1,
+      cropBoxResizable:false,
+      crop: function(e) {
+        console.log(e.detail.x);
+        console.log(e.detail.y);
+      }
+    
+    });
+  
+    // On crop button clicked
+    document.getElementById('crop_button2').addEventListener('click', function(){
+      document.getElementById('imag2').style.visibility = 'visible'
+      document.getElementById('img2').style.visibility = 'hidden'
+      var imgurl =  cropper.getCroppedCanvas().toDataURL();
+      //var img = document.createElement("imag1");
+      //imag1.src = imgurl;
+      document.getElementById('crop_button1').style.visibility = 'hidden'
+      document.getElementById("imag2").src=imgurl
+
+      $('#imageurl2').val(imgurl)
+      cropper.destroy()
+  
+    })
+  }
+  </script>
+
+
+  <script>
+    var cropper = new Cropper3(document.getElementById('img3'), {});
+
+    function readURL3(input) {
+      document.getElementById('crop_button3').style.visibility = 'visible'
+      document.getElementById('img3').style.visibility = 'visible'
+      document.getElementById('imag3').src = ''
+
+      if (input.files && input.files[0]) {
+        var reader = new FileReader();
+        reader.onload = function (e) {
+          $('#img3').attr('src', e.target.result)
+        };
+        reader.readAsDataURL(input.files[0]);
+        setTimeout(initCropper3, 1000);
+      }
+    }
+    function initCropper3(){
+      console.log("jehbb")
+      var image = document.getElementById('img3');
+      var cropper = new Cropper(image, {
+        aspectRatio: 16 / 9,
+        viewMode:1,
+        cropBoxResizable:false,
+        crop: function(e) {
+          console.log(e.detail.x);
+          console.log(e.detail.y);
+        }
+      
+      });
+    
+      // On crop button clicked
+      document.getElementById('crop_button3').addEventListener('click', function(){
+        document.getElementById('imag3').style.visibility = 'visible'
+      document.getElementById('img3').style.visibility = 'hidden'
+        var imgurl =  cropper.getCroppedCanvas().toDataURL();
+        //var img = document.createElement("imag1");
+        //imag1.src = imgurl;
+        document.getElementById('crop_button1').style.visibility = 'hidden'
+        document.getElementById("imag3").src=imgurl
+        $('#imageurl3').val(imgurl)
+        cropper.destroy()
+
+      })
+    }
+    </script>
+
+
+   
+
+    
+   
+    <!-- //document.getElementById("cropped_result").appendChild(imag1);
+
+    /* ---------------- SEND IMAGE TO THE SERVER-------------------------
+
+                cropper.getCroppedCanvas().toBlob(function (blob) {
+                      var formData = new FormData();
+                      formData.append('croppedImage', blob);
+                      // Use `jQuery.ajax` method
+                      $.ajax('/path/to/upload', {
+                        method: "POST",
+                        data: formData,
+                        processData: false,
+                        contentType: false,
+                        success: function () {
+                          console.log('Upload success');
+                        },
+                        error: function () {
+                          console.log('Upload error');
+                        }
+                      });
+                });
+            ----------------------------------------------------*/ -->
+  
+
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <!-- <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script> -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js" integrity="sha512-894YE6QWD5I59HgZOGReFYm4dnWc1Qt5NtvYSaNcOP+u1T9qYdvdihz0PPSiiqn/+/3e7Jo4EaG7TubfWGUrMQ==" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
+    <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.0.0/cropper.min.js"></script> -->
+    
+    <script>
+    var today = new Date().toISOString().split('T')[0];
+    document.getElementsByName("timefrom")[0].setAttribute('min', today);
+     </script>
+    
+    {% endblock content %}  
+    
+
+    

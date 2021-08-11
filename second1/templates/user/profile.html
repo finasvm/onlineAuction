@@ -1,0 +1,178 @@
+{% extends 'user/base.html'%}
+{% block content %}
+{% load static %}
+
+
+
+    <!--============= Dashboard Section Starts Here =============-->
+    <section class="dashboard-section padding-bottom mt--240 mt-lg--440 pos-rel">
+        <div class="container">
+            <div class="row justify-content-center">
+                <div class="col-sm-10 col-md-7 col-lg-4">
+                    <div class="dashboard-widget mb-30 mb-lg-0 sticky-menu">
+                        <div class="user">
+                            <div class="thumb-area">
+                                <div class="thumb">
+                                    <img src="assets/images/dashboard/user.png" alt="user">
+                                </div>
+                                <label for="profile-pic" class="profile-pic-edit"><i class="flaticon-pencil"></i></label>
+                                <input type="file" id="profile-pic" class="d-none">
+                            </div>
+                            <div class="content">
+                                <h5 class="title"><a href="#0">{{User_Details.user.username}}</a></h5>
+                                <span class="username">{{User_Details.user.email}}</span><br>
+                                <span class="username">{{User_Details.number}}</span>
+                            </div>
+                        </div>
+                        <ul class="dashboard-menu">
+                            <li>
+                                <a href="dashboard.html"><i class="flaticon-dashboard"></i>Dashboard</a>
+                            </li>
+                            <li>
+                                <a href="#0" class="active"><i class="flaticon-settings"></i>Personal Profile </a>
+                            </li>
+                            <li>
+                                <a href="my-bid.html"><i class="flaticon-auction"></i>My Bids</a>
+                            </li>
+                            <li>
+                                <a href="winning-bids.html"><i class="flaticon-best-seller"></i>Winning Bids</a>
+                            </li>
+                            <li>
+                                <a href="notifications.html"><i class="flaticon-alarm"></i>My Alerts</a>
+                            </li>
+                            <li>
+                                <a href="my-favorites.html"><i class="flaticon-star"></i>My Favorites</a>
+                            </li>
+                            <li>
+                                <a href="referral.html"><i class="flaticon-shake-hand"></i>Referrals</a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="col-lg-8">
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="dash-pro-item mb-30 dashboard-widget">
+                                <div class="header">
+                                    <h4 class="title">Edit Details</h4>
+                                  <!-- Modal -->
+                                  <div class="" id="example" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                    <div class="modal-dialog" role="document">
+                                      <div class="modal-content">
+                                        <div class="modal-header">
+                                          <h5 class="modal-title" id="exampleModalLabel"></h5>
+                                          
+                                        </div>
+                                            <div class="modal-body">
+                                               <form action="{% url 'Edit_profile' %}" method="post">
+                                                  {% csrf_token %}
+                                              <label for="modal">Username</label><br>
+                                              <input type="text" name="username" placeholder="Username" id="username" value="{{User_Details.user.username}}" required><br>
+                                              <label for="modal">Email</label><br>
+                                              <input name="email" placeholder="Email" type="email" id="email" value="{{User_Details.user.email}}" required>
+                                              <label for="modal">ph.No</label><br>
+                                              <input name="number" placeholder="number" type="number" id="number" value="{{User_Details.number}}" required>
+                                            </div>
+                                              <button type="submit" class="btn btn-primary">Save </button>
+                                            </form>
+                                          </div>
+                                        </div>
+                                      </div>
+  
+                                </div>
+                                
+                            </div>
+                        </div>
+                        <div class="col-12">
+                            <div class="dash-pro-item mb-30 dashboard-widget">
+                                <div class="header">
+                                    <h4 class="title">change password</h4>
+                                    <span class="edit"></span>
+                                </div>
+                                <span id="error1"></span>
+                                <ul class="dash-pro-body">
+                                    <form>
+                                    <li>
+                                        
+                                        <div class="info-name">old password</div>
+                                        <div class="info-value">                                                     
+                                            <input type="password" id="old">
+                                        </div>
+                                    </li>
+                                    <li>
+                                        <div class="info-name">New password</div>
+                                        <div class="info-value"><input type="password" id="new">
+                                        </div>
+                                    </li>
+                                    <li>
+                                        <div class="info-name">confirm password</div>
+                                        <div class="info-value"><input type="password" id="confirm">
+                                        </div><br>
+                                        <button type="button" id="but2">Continue</button>
+                                    </li>
+                                    </form>
+                                </ul>
+                            </div>
+                        </div>
+                        
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!--============= Dashboard Section Ends Here =============-->
+    <script src="https://code.jquery.com/jquery-3.5.1.js" integrity="sha256-QWo7LDvxbWT2tbbQ97B53yJnYU3WhH/C8ycbRAkjPDc=" crossorigin="anonymous"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
+
+
+    <script>
+        $('#but2').click(function(){
+            var oldpass = $('#old').val()
+            var newpass = $('#new').val()
+            var conpass = $('#confirm').val()
+            var data = {
+                'csrfmiddlewaretoken' : '{{csrf_token}}',
+                'oldpass' : oldpass,
+                'newpass' : newpass,
+                'conpass' : conpass,
+
+            
+            
+            }
+                if (oldpass === "") {
+                    $('#error1').html("Enter the old password")
+                }
+                else if (newpass === ""){
+                    $('#error1').html("Enter the new password")
+                }
+                else if (conpass === ""){
+                    $('#error1').html("Enter the cofirm password")
+                }
+                else{
+                    $.ajax({
+                        url:'/changepassword/',
+                        method:'POST',
+                        data: data,
+                        dataType:'json',
+                        success:function(data){
+                            if (data =="true"){
+                                window.location.replace('/Sign_in/')
+                            }
+                            else if(data == "false"){
+                                $("#error1").html(" password is mismatching")
+                            }
+                            else if(data == "false1"){
+                                $("#error1").html("Old password is wrong")
+                            }
+                            
+                        }
+                    })
+                }
+        
+        
+        })
+    </script>
+
+
+    {% endblock %}

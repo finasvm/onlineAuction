@@ -1,0 +1,90 @@
+{% extends 'admin/base.html'%}
+{% block content %}
+{% load static %}
+{% block link %}
+ <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.5.2/css/bootstrap.css"> 
+<!-- <link rel="stylesheet" href="https://cdn.datatables.net/1.10.24/css/dataTables.bootstrap4.min.css">  -->
+{% endblock %}
+    <!-- ============================================================== -->
+    <!-- Preloader - style you can find in spinners.css -->
+    <!-- ============================================================== -->
+
+            <!-- ============================================================== -->
+            <!-- End Bread crumb and right sidebar toggle -->
+            <!-- ============================================================== -->
+            <!-- ============================================================== -->
+            <!-- Container fluid  -->
+            <!-- ============================================================== -->
+            
+                <!-- ============================================================== -->
+                <!-- Start Page Content -->
+                <!-- ============================================================== -->
+                                <div class="table-responsive">
+                                    <table id="example" class="table table-striped table-bordered" style="width:100%">
+                                        <thead>
+                                            <tr>
+                                                <th scope="col">Username</th>
+                                                <th scope="col">Email</th>
+                                                <th scope="col">Number</th>
+                                                <th scope="col"></th>
+                                                
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            {% for us in users %}
+                                            <tr>
+                                                <td>{{us.user.username}}</td>
+                                                <td>{{us.user.email}}</td>
+                                                <td>{{us.number}}</td>
+                                                {% if us.user.is_active == True %}
+                                                <td><a href="{% url 'Block' pk=us.id %}" class="btn btn-danger">block</a></td>
+                                                {% else %}
+                                                <td><a href="{% url 'Block' pk=us.id %}" class="btn btn-primary">unblock</a></td>
+                                                {% endif %}
+                                                
+                                            </tr>
+                                            {% endfor %}
+                                        </tbody>
+                                    </table>
+                                    
+                <!-- ============================================================== -->
+                <!-- End PAge Content -->
+                <!-- ============================================================== -->
+                <!-- ============================================================== -->
+                <!-- Right sidebar -->
+                <!-- ============================================================== -->
+                <!-- .right-sidebar -->
+                <!-- ============================================================== -->
+                <!-- End Right sidebar -->
+                <!-- ============================================================== -->
+            <!-- ============================================================== -->
+            <!-- End Container fluid  -->
+            <!-- ============================================================== -->
+            <!-- ============================================================== -->
+            <!-- footer -->
+            <!-- ============================================================== -->
+            
+            <!-- ============================================================== -->
+            <!-- End footer -->
+            <!-- ============================================================== -->
+        <!-- ============================================================== -->
+        <!-- End Page wrapper  -->
+        <!-- ============================================================== -->
+
+    <!-- ============================================================== -->
+    <!-- End Wrapper -->
+    <!-- ============================================================== -->
+    <!-- ============================================================== -->
+    <!-- All Jquery -->
+    <!-- ============================================================== -->
+    <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
+    <script src="https://cdn.datatables.net/1.10.24/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdn.datatables.net/1.10.24/js/dataTables.bootstrap4.min.js"></script>
+    <script>
+    $(document).ready(function() {
+        $('#example').DataTable();
+    } );
+</script>
+{% endblock %}
+
+   

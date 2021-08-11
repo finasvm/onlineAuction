@@ -1,0 +1,147 @@
+{% extends 'user/base.html' %}
+ {% block content %}
+{% load static %}
+
+    <!--============= Product Details Section Starts Here =============-->
+        <section class="product-details padding-bottom mt--240 mt-lg--440">
+            <div class="container">
+                <div class="product-details-slider-top-wrapper">
+                    <div class="product-details-slider owl-theme owl-carousel" id="sync1">
+                        <div class="slide-top-item">
+                            <div class="slide-inner">
+                                <img src="{{bidproduct.imageurl1}}" alt="product">
+                            </div>
+                        </div>
+    
+                        <div class="slide-top-item">
+                            <div class="slide-inner">
+                                <img src="assets/images/product/product4.png" alt="product">
+                            </div>
+                        </div>
+                        <div class="slide-top-item">
+                            <div class="slide-inner">
+                                <img src="assets/images/product/product5.png" alt="product">
+                            </div>
+                        </div>
+                        <div class="slide-top-item">
+                            <div class="slide-inner">
+                                <img src="assets/images/product/product6.png" alt="product">
+                            </div>
+                        </div>
+                        
+                    </div>
+                </div>
+    
+
+                <div class="product-sidebar-area">
+                    <div class="product-single-sidebar mb-3">
+                        <h6 class="title">The winner is:</h6>
+                        <div class="row">
+                            <div class="col-md-8">
+                        <div class="side-counter-area">
+                            <div class="side-counter-item">
+                                <div class="thumb">
+                                    <img src="{% static 'user/assets/images/product/icon2.png' %}" alt="product">
+                                </div>
+                                <div class="content">
+                                    <h3 class="-title"><span class="">{{winner.buyer.user.username}}</span></h3>
+                                </div>
+                            </div>
+                            
+                        </div>
+                        </div>
+                        <div class="col-md-4">
+                            <button class="custom-button"><h3><p>{{winner.Bid_Price}}</p></h3></button>
+                        </div>
+                        </div>
+
+                    </div>
+                </div>   
+            <div class="row mt-40-60-80">   
+                <div class="col-lg-8">
+                    <div class="product-details-content">
+                        <div class="product-details-header">
+                            <h2 class="title">{{bidproduct.p_name}}</h2>
+                        </div>
+                        <ul class="price-table mb-30">
+                            <li class="header">
+                                <h5 class="current">PRICE</h5>
+                                <h3 class="price">{{bidproduct.p_price}}</h3>
+                            </li>
+                              
+                        </ul>
+                        
+                    </div>
+                </div>
+                <div class="col-lg-4">
+                    <div class="product-sidebar-area">
+                        <div class="product-single-sidebar mb-3">
+                            <h6 class="title">Bidders list:</h6>
+                            {% for bid in bid %}
+                            <div class="side-counter-area">
+                                <div class="side-counter-item">
+                                    <div class="thumb">
+                                        <img src="{% static 'user/assets/images/product/icon2.png' %}" alt="product">
+                                    </div>
+                                    <div class="content">
+                                        <h3 class="-title"><span class="">{{bid.buyer.user.username}}</span></h3>
+                                        <p>{{bid.Bid_Price}}</p>
+                                    </div>
+                                </div>
+                                
+                            </div>
+                            {% endfor %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+        
+  <script src="https://code.jquery.com/jquery-3.5.1.js" integrity="sha256-QWo7LDvxbWT2tbbQ97B53yJnYU3WhH/C8ycbRAkjPDc=" crossorigin="anonymous"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
+  <script>
+    $('#but1').click(function(){
+        console.log('/////////////////')
+        var id1 = $(this).attr("data-list");
+        console.log(id1)
+        var price1 = $('#price').val()
+        var data = {
+            'csrfmiddlewaretoken' : '{{csrf_token}}',
+            'id2' : id1,
+            'price' : price1
+        
+        }
+        console.log(data)
+            if (price1 === "") {
+                $('#error1').html("Enter price")
+
+
+            }
+            
+
+            else{
+
+                $.ajax({
+
+                    url:'/Bid_price/',
+                    method:'POST',
+                    data: data,
+                    dataType:'json',
+                    success:function(data){
+                     if(data == "false1"){
+                            $("#error1").html("You cannot bid the same amount or lesser")
+                           }
+                        else if(data == "block"){
+                            $("#error1").html("You are blocked")
+                        }
+                        
+                    }
+                })
+            }
+    })
+</script>
+
+{% endblock %}

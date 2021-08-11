@@ -1,0 +1,112 @@
+{% extends 'user/base.html' %}
+ {% block content %}
+{% load static %}
+
+    <!--============= Product Details Section Starts Here =============-->
+    
+        
+        <section class="product-details padding-bottom mt--240 mt-lg--440">
+            <div class="container">
+                <div class="product-details-slider-top-wrapper">
+                    <div class="product-details-slider owl-theme owl-carousel" id="sync1">
+                        <div class="slide-top-item">
+                            <div class="slide-inner">
+                                <img src="{{bidproduct.imageurl1}}" alt="product">
+                            </div>
+                        </div>
+    
+                        <div class="slide-top-item">
+                            <div class="slide-inner">
+                                <img src="assets/images/product/product4.png" alt="product">
+                            </div>
+                        </div>
+                        <div class="slide-top-item">
+                            <div class="slide-inner">
+                                <img src="assets/images/product/product5.png" alt="product">
+                            </div>
+                        </div>
+                        <div class="slide-top-item">
+                            <div class="slide-inner">
+                                <img src="assets/images/product/product6.png" alt="product">
+                            </div>
+                        </div>
+                        
+                    </div>
+                </div>
+    
+
+                <div class="product-sidebar-area">
+                    <div class="product-single-sidebar mb-3">
+                        <h6 class="title">Current winner</h6>
+                        <div class="row">
+                            <div class="col-md-8">
+                        <div class="side-counter-area">
+                            <div class="side-counter-item">
+                                <div class="thumb">
+                                    <img src="{% static 'user/assets/images/product/icon2.png' %}" alt="product">
+                                </div>
+                                <div class="content">
+                                    <h3 class="-title"><span class="">{{winner.buyer.user.username}}</span></h3>
+                                </div>
+                            </div>
+                            
+                        </div>
+                        </div>
+                        <div class="col-md-4">
+                            Highest Bidded price
+                            <button class="custom-button"><h3><p>{{winner.Bid_Price}}</p></h3></button>
+                        </div>
+                        </div>
+
+                    </div>
+                    <h5 style="color: red;">DEADLINE:{{bidproduct.bid_ends}},12:00 AM</h5>
+                </div>   
+            <div class="row mt-40-60-80">   
+                <div class="col-lg-8">
+                    <div class="product-details-content">
+                        <div class="product-details-header">
+                            <h2 class="title">{{bidproduct.p_name}}</h2>
+                        </div>
+                        <ul class="price-table mb-30">
+                            <li class="header">
+                                <h5 class="current">PRICE</h5>
+                                <h3 class="price">{{bidproduct.p_price}}</h3>
+                            </li>
+                              
+                        </ul>
+                        <span id="error1"></span>
+
+                        
+
+                        
+                    </div>
+                </div>
+                <div class="col-lg-4">
+                    <div class="product-sidebar-area">
+                        <div class="product-single-sidebar mb-3">
+                            <h6 class="title">Current winners list:</h6>
+                            {% for bid in bid %}
+                            <div class="side-counter-area">
+                                <div class="side-counter-item">
+                                    <div class="thumb">
+                                        <img src="{% static 'user/assets/images/product/icon2.png' %}" alt="product">
+                                    </div>
+                                    <div class="content">
+                                        <h3 class="-title"><span class="">{{bid.buyer.user.username}}</span></h3>
+                                        <p>{{bid.Bid_Price}}</p>
+                                    </div>
+                                </div>
+                                
+                            </div>
+                            {% endfor %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+        
+ 
+
+{% endblock %}
